@@ -28,6 +28,7 @@ void bubbleSort(Node**);
 void optimizedBubbleSort(Node**);
 void selectionSort(Node**);
 void optimizedSelectionSort(int[], int);
+void optimizedSelectionSort(Node** head);
 
 int main()
 {
@@ -123,6 +124,18 @@ int main()
 
     
     cout << "=================================================================" << endl;
+
+    Node* node_4 = nullptr;
+
+    insertEnd(&node_4, 10);
+    insertEnd(&node_4, 3);
+    insertEnd(&node_4, 20);
+    insertEnd(&node_4, 5);
+    insertEnd(&node_4, 26);
+    insertEnd(&node_4, 8);
+
+    optimizedSelectionSort(&node_4);
+    displayList(node_4);
 
     return 0;
 }
@@ -332,5 +345,22 @@ void selectionSort(Node** head)
                 swapNode(head, current_1->iPayload, current_2->iPayload);
             }
         }
+    }
+}
+
+void optimizedSelectionSort(Node** head)
+{
+    for (Node* current_1 = *head; current_1 != nullptr; current_1 = current_1->ptrNext)
+    {
+        Node* temp = current_1;
+
+        for (Node* current_2 = current_1->ptrNext; current_2 != nullptr; current_2 = current_2->ptrNext)
+        {
+            if (current_2->iPayload < temp->iPayload)
+            {
+                temp = current_2;
+            }
+        }
+        swapNode(head, current_1->iPayload, temp->iPayload);
     }
 }
