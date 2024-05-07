@@ -249,6 +249,28 @@ void bubbleSort(Node** head)
 }
 */
 
+void optimizedBubbleSort(Node** head)
+{
+    bool bUnordered = false;
+
+    for (Node* current_1 = *head; current_1 != nullptr; current_1 = current_1->ptrNext)
+    {
+        bUnordered = false;
+
+        for (Node* current_2 = *head; current_2->ptrNext != nullptr; current_2 = current_2->ptrNext)
+        {
+            if (current_2->iPayload > current_2->ptrNext->iPayload)
+            {
+                swapNode(head, current_2->iPayload, current_2->ptrNext->iPayload);
+                bUnordered = true;
+            }
+        }
+
+        if (bUnordered == false) break;
+    }
+}
+
+/*
 void optimizedBubbleSort(Node** head) 
 {
     // Se a lista estiver vazia ou conter apenas um nó
@@ -278,60 +300,4 @@ void optimizedBubbleSort(Node** head)
         lastSorted = current; 
     }
 }
-
-/*
-void selectionSort(int arriNumbers[], int iLength)
-{
-    for (int iOuterLoop = 0; iOuterLoop < iLength; iOuterLoop++)
-    {
-        for (int iInnerLoop = iOuterLoop + 1; iInnerLoop < iLength; iInnerLoop++)
-        {
-            if (arriNumbers[iOuterLoop] > arriNumbers[iInnerLoop])
-            {
-                swapValue(arriNumbers[iOuterLoop], arriNumbers[iInnerLoop]);
-            }
-        }
-    }
-}
-
-void optimizedSelectionSort(int arriNumbers[], int iLength)
-{
-    int minValue = 0;
-    int iSwapIndex = 0;
-
-    for (int iOuterLoop = 0; iOuterLoop < iLength; iOuterLoop++)
-    {
-        minValue = arriNumbers[iOuterLoop];
-        iSwapIndex = iOuterLoop;
-
-        for (int iInnerLoop = iOuterLoop + 1; iInnerLoop < iLength; iInnerLoop++)
-        {
-            if (minValue > arriNumbers[iInnerLoop])
-            {
-                minValue = arriNumbers[iInnerLoop];
-                iSwapIndex = iInnerLoop;
-            }
-        }
-
-        swapValue(arriNumbers[iOuterLoop], arriNumbers[iSwapIndex]);
-    }
-}
-
 */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
