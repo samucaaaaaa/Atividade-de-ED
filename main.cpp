@@ -190,35 +190,13 @@ void insertEnd(Node** head, int iPayload)
 
 // Funções da atividade:
 
-void swapNode(Node** head, int value1, int value2) 
+void swapNode(Node** head, Node* node1, Node* node2) 
 {
     // Se os valores forem iguais, não há troca
-    if (value1 == value2)
+    if (node1->iPayload == node2->iPayload)
     {
-        cout << "Os valores são iguais! Não há troca!" << endl;
+        cout << "Os valores sao iguais! Nao ha troca!" << endl;
         return; 
-    } 
-
-    Node* node1 = nullptr; 
-    Node* node2 = nullptr;
-    Node* temp = *head;
-
-    // Encontrando os nós com os valores fornecidos
-    while (temp != nullptr) 
-    {
-        if (temp->iPayload == value1)
-            node1 = temp;
-        else if (temp->iPayload == value2)
-            node2 = temp;
-
-        temp = temp->ptrNext;
-    }
-
-    // Se algum dos nós não foi encontrado, saia
-    if (node1 == nullptr || node2 == nullptr)
-    {
-        cout << "Os valores não foram encontrados na Lista!" << endl;
-        return;
     } 
 
     // Trocando os nós
@@ -231,11 +209,11 @@ void bubbleSort(Node** head)
 {
     for (Node* current_1 = *head; current_1 != nullptr; current_1 = current_1->ptrNext)
     {
-        for (Node* current_2 = *head; current_2 != nullptr && current_2->ptrNext != nullptr; current_2 = current_2->ptrNext)
+        for (Node* current_2 = *head; current_2->ptrNext != nullptr; current_2 = current_2->ptrNext)
         {
             if (current_2->iPayload > current_2->ptrNext->iPayload)
             {
-                swapNode(head, current_2->iPayload, current_2->ptrNext->iPayload);
+                swapNode(head, current_2, current_2->ptrNext);
             }
         }
     }
@@ -289,6 +267,7 @@ void optimizedBubbleSort(Node** head)
         if (bUnordered == false) break;
     }
 }
+
 
 /*
 void optimizedBubbleSort(Node** head) 
