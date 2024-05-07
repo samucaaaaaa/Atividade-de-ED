@@ -23,7 +23,7 @@ void insertEnd(Node**, int);
 
 // Funções para a atividade
 // TODO: Verificar se swapNode foi implementada da melhor forma
-void swapNode(Node**, int, int); 
+void swapNode(Node*, Node*);
 void displayList(Node*);
 void bubbleSort(Node**);
 void optimizedBubbleSort(Node**);
@@ -190,7 +190,7 @@ void insertEnd(Node** head, int iPayload)
 
 // Funções da atividade:
 
-void swapNode(Node** head, Node* node1, Node* node2) 
+void swapNode(Node* node1, Node* node2) 
 {
     // Se os valores forem iguais, não há troca
     if (node1->iPayload == node2->iPayload)
