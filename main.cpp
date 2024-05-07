@@ -22,6 +22,7 @@ Node* createNode(int);
 void insertEnd(Node**, int);
 
 // Funções para a atividade
+// TODO: Verificar se swapNode foi implementada da melhor forma
 void swapNode(Node**, int, int); 
 void displayList(Node*);
 void bubbleSort(Node**);
