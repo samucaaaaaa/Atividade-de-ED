@@ -31,42 +31,56 @@ void optimizedSelectionSort(int[], int);
 
 int main()
 {
-    Node* node = nullptr;
+    cout << "==================== Teste para displayList ====================" << endl;
+    Node* node_0 = nullptr;
 
-    insertEnd(&node, 10);
-    insertEnd(&node, 3);
-    insertEnd(&node, 20);
-    insertEnd(&node, 5);
-    insertEnd(&node, 26);
-    insertEnd(&node, 8);
+    insertEnd(&node_0, 10);
+    insertEnd(&node_0, 3);
+    insertEnd(&node_0, 20);
+    insertEnd(&node_0, 5);
+    insertEnd(&node_0, 26);
+    insertEnd(&node_0, 8);
 
     cout << "Lista original:" << endl;
-    displayList(node);
+    displayList(node_0);
 
-    cout << "===============================================" << endl;
+    cout << "=================================================================" << endl;
 
-    //cout << "Lista com valor trocado:" << endl;
-    //swapNode(&node, 20, 8);
-    //displayList(node);
+    cout << "====================== Teste para swapNode ======================" << endl;
 
-    cout << "===============================================" << endl;
+    cout << "Lista com valores trocados:" << endl;
+    swapNode(&node_0, 20, 8);
+    displayList(node_0);
 
-    /*
+    cout << "=================================================================" << endl;
+
+    cout << "=================== Teste para ordenar a lista ==================" << endl;
+
+    Node* node_1 = nullptr;
+
+    insertEnd(&node_1, 10);
+    insertEnd(&node_1, 3);
+    insertEnd(&node_1, 20);
+    insertEnd(&node_1, 5);
+    insertEnd(&node_1, 26);
+    insertEnd(&node_1, 8);
+
     // time_point<std::chrono::high_resolution_clock>
     auto timeStart = high_resolution_clock::now();
 
-    bubbleSort(&node);
+    bubbleSort(&node_1);
 
     auto timeStop = high_resolution_clock::now();
 
-    cout << "Lista ordenada:" << endl;
-    displayList(node);
+    cout << "Lista ordenada com bubbleSort:" << endl;
+    displayList(node_1);
 
     auto timeDuration = duration_cast<nanoseconds>(timeStop - timeStart);
 
     cout << "Tempo utilizado: " << timeDuration.count() << " nanosegundos." << endl;
-    cout << "===============================================" << endl;
-    */
+
+    cout << "\n\n";
+
     Node* node_2 = nullptr;
 
     insertEnd(&node_2, 10);
@@ -76,19 +90,20 @@ int main()
     insertEnd(&node_2, 26);
     insertEnd(&node_2, 8);
 
-    auto timeStart = high_resolution_clock::now();
+    timeStart = high_resolution_clock::now();
 
     optimizedBubbleSort(&node_2);
 
-    auto timeStop = high_resolution_clock::now();
+    timeStop = high_resolution_clock::now();
 
-    cout << "Lista ordenada:" << endl;
+    cout << "Lista ordenada com optimizedBubbleSort:" << endl;
     displayList(node_2);
 
-    auto timeDuration = duration_cast<nanoseconds>(timeStop - timeStart);
+    timeDuration = duration_cast<nanoseconds>(timeStop - timeStart);
 
     cout << "Tempo utilizado: " << timeDuration.count() << " nanosegundos." << endl;
-    cout << "===============================================" << endl;
+
+    cout << "=================================================================" << endl;
 
     return 0;
 }
@@ -192,12 +207,11 @@ void swapNode(Node** head, int value1, int value2)
     node2->iPayload = tempPayload;
 }
 
-/*
 void bubbleSort(Node** head)
 {
     for (Node* current_1 = *head; current_1 != nullptr; current_1 = current_1->ptrNext)
     {
-        for (Node* current_2 = *head; current_2 != nullptr; current_2 = current_2->ptrNext)
+        for (Node* current_2 = *head; current_2 != nullptr && current_2->ptrNext != nullptr; current_2 = current_2->ptrNext)
         {
             if (current_2->iPayload > current_2->ptrNext->iPayload)
             {
@@ -206,7 +220,6 @@ void bubbleSort(Node** head)
         }
     }
 }
-*/
 
 /*
 void bubbleSort(Node** head) 
