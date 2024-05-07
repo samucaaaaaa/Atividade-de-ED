@@ -47,14 +47,6 @@ int main()
 
     cout << "=================================================================" << endl;
 
-    cout << "====================== Teste para swapNode ======================" << endl;
-
-    cout << "Lista com valores trocados:" << endl;
-    swapNode(&node_0, 20, 8);
-    displayList(node_0);
-
-    cout << "=================================================================" << endl;
-
     cout << "=================== Teste para ordenar a lista ==================" << endl;
 
     Node* node_1 = nullptr;
@@ -192,17 +184,17 @@ void insertEnd(Node** head, int iPayload)
 
 void swapNode(Node* node1, Node* node2) 
 {
-    // Se os valores forem iguais, não há troca
-    if (node1->iPayload == node2->iPayload)
-    {
-        cout << "Os valores sao iguais! Nao ha troca!" << endl;
-        return; 
-    } 
-
     // Trocando os nós
-    int tempPayload = node1->iPayload;
-    node1->iPayload = node2->iPayload;
-    node2->iPayload = tempPayload;
+    Node* temp = createNode(0);
+
+    temp->ptrNext = node1->ptrNext;
+    temp->ptrPrev = node1->ptrPrev;
+
+    node1->ptrNext = node2->ptrNext;
+    node1->ptrPrev = node2->ptrPrev;
+
+    node2->ptrNext = temp->ptrNext;
+    node2->ptrPrev = temp->ptrPrev;
 }
 
 void bubbleSort(Node** head)
@@ -213,7 +205,7 @@ void bubbleSort(Node** head)
         {
             if (current_2->iPayload > current_2->ptrNext->iPayload)
             {
-                swapNode(head, current_2, current_2->ptrNext);
+                swapNode(current_2, current_2->ptrNext);
             }
         }
     }
