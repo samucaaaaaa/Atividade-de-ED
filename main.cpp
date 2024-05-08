@@ -22,10 +22,11 @@ Node* createNode(int);
 void insertEnd(Node**, int);
 
 // Funções para a atividade
-void swapNode(Node**, int, int); 
+// TODO: Verificar se swapNode foi implementada da melhor forma
+void swapNode(Node*, Node*);
 void displayList(Node*);
 void bubbleSort(Node**);
-void optimizedBubbleSort(Node**);
+void optimizedBubbleSort(Node**, int);
 void selectionSort(Node**);
 void optimizedSelectionSort(int[], int);
 void optimizedSelectionSort(Node** head);
@@ -43,14 +44,6 @@ int main()
     insertEnd(&node_0, 8);
 
     cout << "Lista original:" << endl;
-    displayList(node_0);
-
-    cout << "=================================================================" << endl;
-
-    cout << "====================== Teste para swapNode ======================" << endl;
-
-    cout << "Lista com valores trocados:" << endl;
-    swapNode(&node_0, 20, 8);
     displayList(node_0);
 
     cout << "=================================================================" << endl;
@@ -90,7 +83,7 @@ int main()
     insertEnd(&node_2, 8);
 
     timeStart = high_resolution_clock::now();
-    optimizedBubbleSort(&node_2);
+    optimizedBubbleSort(&node_2, 6);
     timeStop = high_resolution_clock::now();
 
     cout << "Lista ordenada com optimizedBubbleSort:" << endl;
@@ -202,137 +195,50 @@ void insertEnd(Node** head, int iPayload)
 
 // Funções da atividade:
 
-void swapNode(Node** head, int value1, int value2) 
+void swapNode(Node* node1, Node* node2) 
 {
-    // Se os valores forem iguais, não há troca
-    if (value1 == value2)
-    {
-        cout << "Os valores são iguais! Não há troca!" << endl;
-        return; 
-    } 
-
-    Node* node1 = nullptr; 
-    Node* node2 = nullptr;
-    Node* temp = *head;
-
-    // Encontrando os nós com os valores fornecidos
-    while (temp != nullptr) 
-    {
-        if (temp->iPayload == value1)
-            node1 = temp;
-        else if (temp->iPayload == value2)
-            node2 = temp;
-
-        temp = temp->ptrNext;
-    }
-
-    // Se algum dos nós não foi encontrado, saia
-    if (node1 == nullptr || node2 == nullptr)
-    {
-        cout << "Os valores não foram encontrados na Lista!" << endl;
-        return;
-    } 
-
-    // Trocando os nós
-    int tempPayload = node1->iPayload;
+    int iTemp = node1->iPayload;
     node1->iPayload = node2->iPayload;
-    node2->iPayload = tempPayload;
+    node2->iPayload = iTemp;
 }
 
 void bubbleSort(Node** head)
 {
     for (Node* current_1 = *head; current_1 != nullptr; current_1 = current_1->ptrNext)
     {
-        for (Node* current_2 = *head; current_2 != nullptr && current_2->ptrNext != nullptr; current_2 = current_2->ptrNext)
-        {
-            if (current_2->iPayload > current_2->ptrNext->iPayload)
-            {
-                swapNode(head, current_2->iPayload, current_2->ptrNext->iPayload);
-            }
-        }
-    }
-}
-
-/*
-void bubbleSort(Node** head) 
-{
-    // Se a lista estiver vazia ou conter apenas um nó
-    if (*head == nullptr || (*head)->ptrNext == nullptr) return; 
-
-    // Variável para indicar se houve alguma troca
-    bool swapped = true; 
-
-    while (swapped) {
-        // Inicialmente, nenhuma troca foi feita durante esta passagem
-        swapped = false;
-        Node* current = *head;
-
-        while (current->ptrNext != nullptr) {
-            // Se os nós atuais e próximos precisam ser trocados
-            if (current->iPayload > current->ptrNext->iPayload) {
-                // Troca os valores dos nós
-                swapNode(head, current->iPayload, current->ptrNext->iPayload);
-                // Indica que uma troca foi feita
-                swapped = true; 
-            }
-            current = current->ptrNext;
-        }
-    }
-}
-*/
-
-void optimizedBubbleSort(Node** head)
-{
-    bool bUnordered = false;
-
-    for (Node* current_1 = *head; current_1 != nullptr; current_1 = current_1->ptrNext)
-    {
-        bUnordered = false;
-
         for (Node* current_2 = *head; current_2->ptrNext != nullptr; current_2 = current_2->ptrNext)
         {
             if (current_2->iPayload > current_2->ptrNext->iPayload)
             {
-                swapNode(head, current_2->iPayload, current_2->ptrNext->iPayload);
+                swapNode(current_2, current_2->ptrNext);
+            }
+        }
+    }
+}
+
+void optimizedBubbleSort(Node** head, int iLength)
+{
+    bool bUnordered = false;
+
+    for (int iOuterLoop = iLength-1; iOuterLoop > 0; iOuterLoop--)
+    {
+        bUnordered = false;
+
+        Node* current_2 = *head;
+        for (int iInnerLoop = 0; iInnerLoop < iOuterLoop; iInnerLoop++)
+        {
+
+            if (current_2->iPayload > current_2->ptrNext->iPayload)
+            {
+                swapNode(current_2, current_2->ptrNext);
                 bUnordered = true;
             }
+            current_2 = current_2->ptrNext;
         }
 
         if (bUnordered == false) break;
     }
 }
-
-/*
-void optimizedBubbleSort(Node** head) 
-{
-    // Se a lista estiver vazia ou conter apenas um nó
-    if (*head == nullptr || (*head)->ptrNext == nullptr) return; 
-
-    // Mantém o último nó ordenado
-    Node* lastSorted = nullptr; 
-    // Indica se houve alguma troca durante a passagem atual
-    bool unordered = true; 
-
-    while (unordered) {
-        // Inicialmente, nenhuma troca foi feita durante esta passagem
-        unordered = false; 
-        Node* current = *head;
-
-        while (current->ptrNext != lastSorted) {
-            // Se os nós atuais e próximos precisam ser trocados
-            if (current->iPayload > current->ptrNext->iPayload) {
-                // Troca os valores dos nós usando a função swapNode
-                swapNode(head, current->iPayload, current->ptrNext->iPayload);
-                // Indica que uma troca foi feita
-                unordered = true; 
-            }
-            current = current->ptrNext;
-        }
-        // Atualiza o último nó ordenado
-        lastSorted = current; 
-    }
-}
-*/
 
 void selectionSort(Node** head)
 {
@@ -342,7 +248,7 @@ void selectionSort(Node** head)
         {
             if (current_1->iPayload > current_2->iPayload)
             {
-                swapNode(head, current_1->iPayload, current_2->iPayload);
+                swapNode(current_1, current_2);
             }
         }
     }
