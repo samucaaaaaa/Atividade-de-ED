@@ -19,120 +19,67 @@ typedef struct Node
 } Node;
 
 Node* createNode(int);
-void insertEnd(Node**, int);
 
 // Funções para a atividade
-// TODO: Verificar se swapNode foi implementada da melhor forma
 void swapPayload(Node*, Node*);
-void displayList(Node*);
 void bubbleSort(Node**);
 void optimizedBubbleSort(Node**, int);
 void selectionSort(Node**);
-void optimizedSelectionSort(int[], int);
 void optimizedSelectionSort(Node** head);
+// Função auxiliar
 Node* createRandomList(int);
 
 int main()
 {
-    cout << "==================== Teste para displayList ====================" << endl;
-    Node* node_0 = nullptr;
+    cout << "=====================================================================" << endl;
+    cout << "\n";
+    Node* node_1 = createRandomList(30000);
 
-    insertEnd(&node_0, 10);
-    insertEnd(&node_0, 3);
-    insertEnd(&node_0, 20);
-    insertEnd(&node_0, 5);
-    insertEnd(&node_0, 26);
-    insertEnd(&node_0, 8);
-
-    cout << "Lista original:" << endl;
-    displayList(node_0);
-
-    cout << "=================================================================" << endl;
-
-    cout << "=================== Teste para ordenar a lista ==================" << endl;
-
-    Node* node_1 = nullptr;
-
-    insertEnd(&node_1, 10);
-    insertEnd(&node_1, 3);
-    insertEnd(&node_1, 20);
-    insertEnd(&node_1, 5);
-    insertEnd(&node_1, 26);
-    insertEnd(&node_1, 8);
-
-    // time_point<std::chrono::high_resolution_clock>
     auto timeStart = high_resolution_clock::now();
     bubbleSort(&node_1);
     auto timeStop = high_resolution_clock::now();
 
-    cout << "Lista ordenada com bubbleSort:" << endl;
-    displayList(node_1);
-
     auto timeDuration = duration_cast<nanoseconds>(timeStop - timeStart);
+    cout << "Tempo utilizado no bubbleSort: " << timeDuration.count() << " nanosegundos." << endl;
 
-    cout << "Tempo utilizado: " << timeDuration.count() << " nanosegundos." << endl;
+    cout << "\n";
 
-    cout << "\n\n";
-
-    Node* node_2 = nullptr;
-
-    insertEnd(&node_2, 10);
-    insertEnd(&node_2, 3);
-    insertEnd(&node_2, 20);
-    insertEnd(&node_2, 5);
-    insertEnd(&node_2, 26);
-    insertEnd(&node_2, 8);
+    Node* node_2 = createRandomList(30000);
 
     timeStart = high_resolution_clock::now();
-    optimizedBubbleSort(&node_2, 6);
+    optimizedBubbleSort(&node_2, 30000);
     timeStop = high_resolution_clock::now();
 
-    cout << "Lista ordenada com optimizedBubbleSort:" << endl;
-    displayList(node_2);
-
     timeDuration = duration_cast<nanoseconds>(timeStop - timeStart);
+    cout << "Tempo utilizado no optimizedBubbleSort: " << timeDuration.count() << " nanosegundos." << endl;
 
-    cout << "Tempo utilizado: " << timeDuration.count() << " nanosegundos." << endl;
+    cout << "\n";
+    cout << "=====================================================================" << endl;
 
-    cout << "\n\n";
+    cout << "\n";
 
-    Node* node_3 = nullptr;
-
-    insertEnd(&node_3, 10);
-    insertEnd(&node_3, 3);
-    insertEnd(&node_3, 20);
-    insertEnd(&node_3, 5);
-    insertEnd(&node_3, 26);
-    insertEnd(&node_3, 8);
+    Node* node_3 = createRandomList(30000);
 
     timeStart = high_resolution_clock::now();
     selectionSort(&node_3);
     timeStop = high_resolution_clock::now();
 
-    cout << "Lista ordenada com selectionSort:" << endl;
-    displayList(node_3);
+    timeDuration = duration_cast<nanoseconds>(timeStop - timeStart);
+    cout << "Tempo utilizado no selectionSort: " << timeDuration.count() << " nanosegundos." << endl;
+
+    cout << "\n";
+
+    Node* node_4 = createRandomList(30000);
+
+    timeStart = high_resolution_clock::now();
+    optimizedSelectionSort(&node_4);
+    timeStop = high_resolution_clock::now();
 
     timeDuration = duration_cast<nanoseconds>(timeStop - timeStart);
+    cout << "Tempo utilizado no optimizedSelectionSort: " << timeDuration.count() << " nanosegundos." << endl;
 
-    cout << "Tempo utilizado: " << timeDuration.count() << " nanosegundos." << endl;
-
-    
-    cout << "=================================================================" << endl;
-
-    Node* node_4 = nullptr;
-
-    insertEnd(&node_4, 10);
-    insertEnd(&node_4, 3);
-    insertEnd(&node_4, 20);
-    insertEnd(&node_4, 5);
-    insertEnd(&node_4, 26);
-    insertEnd(&node_4, 8);
-
-    optimizedSelectionSort(&node_4);
-    displayList(node_4);
-
-    Node* node_5 = createRandomList(100);
-    displayList(node_5);
+    cout << "\n";
+    cout << "=====================================================================" << endl;
 
     return 0;
 }
@@ -145,56 +92,6 @@ Node* createNode(int iPayload)
     temp->ptrPrev = nullptr;
 
     return temp;
-}
-
-void displayList(Node* node)
-{
-    if (node == nullptr)
-    {
-        cout << "Lista vazia: Nao foi possivel realizar displayList" << endl;
-        return;
-    }
-
-    if (node->ptrPrev != nullptr)
-    {
-        cout << "Meio da Lista: Nao foi possivel realizar displayList" << endl;
-        return;
-    }
-
-    Node* temp = node;
-
-    cout << "Payload: ";
-
-    //Percorremos a lista até o fim (ptrNext do último é NULL) 
-    while (temp != nullptr)
-    {
-        cout << temp->iPayload << " ";
-        temp = temp->ptrNext;
-    }
-
-    cout << endl;
-}
-
-void insertEnd(Node** head, int iPayload)
-{
-    Node* newNode = createNode(iPayload);
-    //newNode->ptrNext = nullptr;
-
-    if (*head == nullptr)
-    {
-        //newNode->ptrPrev = nullptr;   
-        (*head) = newNode;
-        return;            
-    }
-
-    Node* temp = (*head);
-
-    //Percorremos a lista até o fim (ptrNext do último é NULL) 
-    while (temp->ptrNext != nullptr) temp = temp->ptrNext;
-
-    newNode->ptrPrev = temp; //newNode aponta para o fim da lista
-    temp->ptrNext = newNode; //antigo último elemento aponta para o novo nó
-
 }
 
 // Funções da atividade:
@@ -280,6 +177,7 @@ void optimizedSelectionSort(Node** head)
     }
 }
 
+// Função auxiliar
 Node* createRandomList(int iLength)
 {
     Node* firstNode = createNode(rand()%100);
