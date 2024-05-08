@@ -30,6 +30,7 @@ void optimizedBubbleSort(Node**, int);
 void selectionSort(Node**);
 void optimizedSelectionSort(int[], int);
 void optimizedSelectionSort(Node** head);
+Node* createRandomList(int);
 
 int main()
 {
@@ -129,6 +130,9 @@ int main()
 
     optimizedSelectionSort(&node_4);
     displayList(node_4);
+
+    Node* node_5 = createRandomList(100);
+    displayList(node_5);
 
     return 0;
 }
@@ -274,4 +278,18 @@ void optimizedSelectionSort(Node** head)
         }
         swapPayload(current_1, swapNode);
     }
+}
+
+Node* createRandomList(int iLength)
+{
+    Node* firstNode = createNode(rand()%100);
+    Node* current = firstNode;
+
+    for(int i = 1; i < iLength; i++)
+    {
+        current -> ptrNext = createNode(rand()%100);
+        current = current -> ptrNext;
+    }
+
+    return firstNode;
 }
